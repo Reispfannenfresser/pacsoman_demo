@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://18d4wcwmu1cq"]
+
+[ext_resource type="Script" uid="uid://c0tr83t5yegay" path="res://Scripts/PacsomanEdit.cs" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://lkiiye5wv6ph" path="res://Scripts/Arena.cs" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://blevtlpsanku3" path="res://Scripts/CameraController.cs" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://xyo62sm6r3c0" path="res://player.tscn" id="4_1bvp3"]
+[ext_resource type="Shader" uid="uid://be6egvap3sprr" path="res://arena.gdshader" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://crxm0grllae5d" path="res://Scripts/ArenaShader.cs" id="6_7mycd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7mycd"]
+bg_color = Color(0.24, 0.24, 0.24, 0.6)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lquwl"]
+shader = ExtResource("5_lquwl")
+shader_parameter/border_radius = 0.0
+shader_parameter/spawn_radius = 0.0
+shader_parameter/camera_pos = Vector2(0, 0)
+shader_parameter/camera_zoom = Vector2(1, 1)
+
+[node name="Node2D" type="Node2D" unique_id=200090688]
+
+[node name="Config" type="CanvasLayer" parent="." unique_id=798637114]
+
+[node name="GraphEdit" type="GraphEdit" parent="Config" unique_id=392417808 node_paths=PackedStringArray("NodeButtonContainer")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+grid_pattern = 1
+right_disconnects = true
+minimap_enabled = false
+show_zoom_label = true
+show_zoom_buttons = false
+show_grid_buttons = false
+show_minimap_button = false
+show_arrange_button = false
+script = ExtResource("1_ig7tw")
+NodeButtonContainer = NodePath("PanelContainer/GridContainer")
+
+[node name="PanelContainer" type="PanelContainer" parent="Config/GraphEdit" unique_id=377682224]
+top_level = true
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7mycd")
+
+[node name="GridContainer" type="GridContainer" parent="Config/GraphEdit/PanelContainer" unique_id=2121956174]
+layout_mode = 2
+columns = 2
+
+[node name="HideEditorButton" type="Button" parent="Config" unique_id=1937376106]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -46.5
+offset_top = -31.0
+offset_right = 46.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "hide editor"
+
+[node name="Game" type="CanvasLayer" parent="." unique_id=578712569]
+layer = 0
+visible = false
+
+[node name="ShowEditorButton" type="Button" parent="Game" unique_id=1104187916]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -46.5
+offset_top = -31.0
+offset_right = 46.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "show editor"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2043726950]
+zoom = Vector2(0.25, 0.25)
+limit_enabled = false
+script = ExtResource("2_h2yge")
+
+[node name="Arena" type="Node2D" parent="." unique_id=317983684]
+script = ExtResource("2_0xm2m")
+_playerScene = ExtResource("4_1bvp3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1451149212]
+layer = -1
+
+[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=393324701 node_paths=PackedStringArray("_camera", "_arena")]
+material = SubResource("ShaderMaterial_lquwl")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("6_7mycd")
+_camera = NodePath("../../Camera2D")
+_arena = NodePath("../../Arena")
+
+[connection signal="pressed" from="Config/HideEditorButton" to="Config" method="set_visible" binds= [false]]
+[connection signal="pressed" from="Config/HideEditorButton" to="Game" method="set_visible" binds= [true]]
+[connection signal="pressed" from="Game/ShowEditorButton" to="Config" method="set_visible" binds= [true]]
+[connection signal="pressed" from="Game/ShowEditorButton" to="Game" method="set_visible" binds= [false]]

@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://xyo62sm6r3c0"]
+
+[ext_resource type="Script" uid="uid://c65b8j560i0as" path="res://Scripts/Player.cs" id="1_4flbx"]
+[ext_resource type="Texture2D" uid="uid://br71vgv5meo0p" path="res://Sprites/player.png" id="2_onrkg"]
+[ext_resource type="Texture2D" uid="uid://cu83ham7jwui8" path="res://Sprites/trail.png" id="3_i3pqv"]
+
+[sub_resource type="Curve" id="Curve_i3pqv"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.25), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Player" type="RigidBody2D" unique_id=121304185 node_paths=PackedStringArray("Sprite", "Label", "Shape", "Particles")]
+gravity_scale = 0.0
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 3
+script = ExtResource("1_4flbx")
+Sprite = NodePath("Sprite2D")
+Label = NodePath("Label")
+Shape = NodePath("CollisionPolygon2D")
+Particles = NodePath("CPUParticles2D")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=656074946]
+polygon = PackedVector2Array(-85, 32, -85, -32, 171, 0)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1024591736]
+position = Vector2(-85, 0)
+amount = 128
+texture = ExtResource("3_i3pqv")
+lifetime = 8.0
+speed_scale = 16.0
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_i3pqv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1482440387]
+rotation = -1.5707964
+texture = ExtResource("2_onrkg")
+offset = Vector2(0, 43)
+
+[node name="Label" type="Label" parent="." unique_id=1460102009]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "P"

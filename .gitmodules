@@ -1,0 +1,3 @@
+[submodule "Scripts/Pacsoman"]
+	path = Scripts/Pacsoman
+	url = git@github.com:Reispfannenfresser/pacsoman.git
